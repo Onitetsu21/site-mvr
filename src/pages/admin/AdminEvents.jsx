@@ -104,7 +104,7 @@ function EventForm({ event, artists, onSave, onCancel, saving }) {
             <Input label="Adresse" name="venue_address" value={formData.venue_address} onChange={handleChange} />
           </div>
 
-          <Input label="Image URL" name="image_url" type="url" value={formData.image_url} onChange={handleChange} />
+          <Input label="Image URL" name="image_url" type="text" value={formData.image_url} onChange={handleChange} />
 
           <Textarea label="Description" name="description_fr" value={formData.description_fr} onChange={handleChange} rows={3} />
 

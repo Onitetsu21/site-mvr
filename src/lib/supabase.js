@@ -377,14 +377,15 @@ export async function createEvent(eventData, lineup = []) {
 export async function updateEvent(id, eventData, lineup = []) {
   if (!supabase) throw new Error('Supabase non configuré')
   
-  const { data: event, error: eventError } = await supabase
+  const { data, error: eventError } = await supabase
     .from('events')
     .update(eventData)
     .eq('id', id)
     .select()
-    .single()
   
   if (eventError) throw eventError
+  
+  const event = data[0]  // Prendre le premier résultat
   
   // Supprimer l'ancien lineup
   await supabase

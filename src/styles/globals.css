@@ -43,6 +43,9 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
 }
+.text-dark-mvr {
+  color: #050508 !important;
+}
 
 
 /* Custom scrollbar - thin and minimal */
@@ -441,10 +444,3 @@ body {
   width: 100%;
 }
 
-.hero {
-  background-repeat: no-repeat;
-  background-attachment:scroll;
-  background-size:cover;
-  background-position: center;
-  background-image: url(../../public/hero.png);
-}

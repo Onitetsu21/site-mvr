@@ -6,14 +6,36 @@ import { Container, Section } from '@/components/layout/Section'
 import { Button, Badge, Card } from '@/components/ui'
 import { getLatestReleases, getFeaturedArtists, getUpcomingEvents, supabase } from '@/lib/supabase'
 import { formatDate, isUpcoming } from '@/lib/utils'
+import VantaBackground from '@/components/layout/VantaBackground'
 
 // ===== HERO SECTION =====
 function HeroSection() {
   return (
     <Section padding="lg" className="min-h-[70vh] flex items-center justify-center relative hero">
+        <VantaBackground />
+        <div 
+          className="absolute inset-0 pointer-events-none" 
+          style={{ 
+            background: 'radial-gradient(circle at center, transparent 0%, rgba(5,5,8,0.5) 60%, rgba(5,5,8,1) 100%)' 
+          }} 
+/>
+      {/* Overlay gradient pour lisibilité */}
       <Container className="text-center">
         {/* Logo MVR */}
-        <motion.div
+       
+
+        {/* Titre */}
+        <motion.h1
+          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4 "
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <span className="text-white">MULTIVERSAL</span>
+          <br />
+          <span className="text-neon-cyan">RECORDS</span>
+        </motion.h1>
+         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -25,18 +47,6 @@ function HeroSection() {
             className="w-32 h-32 md:w-40 md:h-40 mx-auto"
           />
         </motion.div>
-
-        {/* Titre */}
-        <motion.h1
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <span className="text-white">MULTIVERSAL</span>
-          <br />
-          <span className="text-neon-cyan">RECORDS</span>
-        </motion.h1>
 
         {/* Tagline */}
         <motion.p
@@ -91,7 +101,7 @@ function UpcomingEventSection({ events }) {
   return (
     <Section className="relative">
       {/* Ligne décorative */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neon-cyan/30 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neon-cyan/90 to-transparent" />
       
       <Container>
         <motion.div
