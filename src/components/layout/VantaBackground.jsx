@@ -44,9 +44,9 @@ export default function VantaBackground({ className = '' }) {
         scale: 1.0,
         scaleMobile: 1.00,
         color: 0x00f0ff,
-        backgroundColor: 0x050508,
-        spacing: 12.00,
-        chaos: 3.00,
+        backgroundColor: 0x030306,
+        spacing: 2.50,
+        chaos: 2,
       })
       setVantaEffect(effect)
     }

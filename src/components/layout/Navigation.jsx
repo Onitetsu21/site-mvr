@@ -18,12 +18,14 @@ export default function Navigation() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-nav">
       {/* Background avec forme géométrique */}
-      <div 
-        className="absolute inset-0 bg-mvr-darker/95 backdrop-blur-md border-t border-neon-cyan/20"
-      />
+            
 
+      <div 
+        className="absolute inset-0 bg-mvr-darker/95 backdrop-blur-md "
+      />
+<div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neon-cyan/90 to-transparent" />
       {/* Ligne décorative en haut */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-neon-cyan/50" />
+      
 
       {/* Navigation items */}
       <div className="relative flex items-center justify-around px-2 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">

@@ -11,26 +11,14 @@ import { NavLink, useLocation } from 'react-router-dom'
 // ===== HERO SECTION =====
 function HeroSection() {
   return (
-    <Section padding="lg" className="min-h-[70vh] flex items-center justify-center relative hero">
+    <Section padding="lg" className="min-h-[92vh] flex items-center justify-center relative hero">
         <VantaBackground />
 
       {/* Overlay gradient pour lisibilité */}
       <Container className="text-center">
         {/* Logo MVR */}
        
-
-        {/* Titre */}
-        <motion.h1
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4 "
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <span className="text-white">MULTIVERSAL</span>
-          <br />
-          <span className="text-neon-cyan">RECORDS</span>
-        </motion.h1>
-         <motion.div
+      <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -39,20 +27,32 @@ function HeroSection() {
           <img 
             src="/mvr_logo_blanc.png" 
             alt="Multiversal Records" 
-            className="w-32 h-32 md:w-40 md:h-40 mx-auto"
+            className="w-32 h-32 md:w-90 md:h-90 mx-auto"
           />
         </motion.div>
+        {/* Titre */}
+        <motion.h1
+          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4 "
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <span className="text-white bold">MULTIVERSAL</span>
+          <br />
+          <span className="text-neon-cyan">RECORDS</span>
+        </motion.h1>
+   
 
         {/* Tagline */}
         <motion.p
-          className="text-text-secondary text-lg md:text-xl max-w-xl mx-auto mb-8"
+          className="text-white text-lg md:text-xl max-w-xl mx-auto mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
           Label indépendant de musique psytrance
           <br />
-          <span className="text-text-muted">Lyon, France • Depuis 2019</span>
+          <span className="text-white">Lyon, France • Depuis 2019</span>
         </motion.p>
 
         {/* CTAs */}
@@ -73,26 +73,9 @@ function HeroSection() {
             </Button>
            </NavLink>
         </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 8, 0] }}
-          transition={{ 
-            opacity: { delay: 1, duration: 0.6 },
-            y: { delay: 1, duration: 2, repeat: Infinity }
-          }}
-        >
-          <div className="w-[2px] h-8 bg-gradient-to-b from-transparent to-neon-cyan/50" />
-        </motion.div>
+       
       </Container>
-      <div 
-        className="absolute inset-0 pointer-events-none" 
-        style={{ 
-          background: 'radial-gradient(circle at center, transparent 0%, rgba(5,5,8,0.5) 60%, rgba(5,5,8,1) 100%)' 
-        }} 
-      />
+
     </Section>
   )
 }
@@ -108,7 +91,12 @@ function AboutSection() {
 
   return (
     <Section className="bg-mvr-darker/50">
+      
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neon-cyan/30 to-transparent" />
+
       <Container>
+              
+
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Texte */}
           <motion.div

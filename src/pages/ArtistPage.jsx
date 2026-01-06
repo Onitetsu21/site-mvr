@@ -95,8 +95,8 @@ export default function ArtistPage() {
               className="md:col-span-1"
             >
               <div 
-                className="aspect-square bg-mvr-elevated overflow-hidden border-2 border-white/10"
-                style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
+                className="aspect-square bg-mvr-elevated overflow-hidden border-2 border-neon-cyan"
+                style={{ clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)' }}
               >
                 {artist.photo_url ? (
                   <img 
