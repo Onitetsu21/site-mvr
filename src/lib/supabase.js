@@ -101,6 +101,25 @@ export async function deleteArtist(id) {
   return true
 }
 
+export async function getMVRArtists() {
+  if (!supabase) throw new Error('Supabase non configuré')
+  
+  const mvrSlugs = [
+    'the-trancemancer', 'psy-fact', 'gohu', 'i-on', 'ulmo', 'anija', 
+    'tripshift', 'nidra', 'unlucide', 'solar-drift', 'adramelech',
+    'monsieur-le-maire', 'excaetera', 'krauzer', 'hokoda'
+  ]
+  
+  const { data, error } = await supabase
+    .from('artists')
+    .select('*')
+    .in('slug', mvrSlugs)
+    .order('name', { ascending: true }) 
+  
+  if (error) throw error
+  return data
+}
+
 // =============================================
 // RELEASES
 // =============================================

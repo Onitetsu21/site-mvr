@@ -84,7 +84,7 @@ function ArtistForm({ artist, onSave, onCancel, saving }) {
             <Input label="Slug (URL)" name="slug" value={formData.slug} onChange={handleChange} required />
           </div>
 
-          <Input label="Photo URL" name="photo_url" type="url" value={formData.photo_url} onChange={handleChange} />
+          <Input label="Photo URL" name="photo_url" type="text" value={formData.photo_url} onChange={handleChange} />
 
           <div className="grid md:grid-cols-2 gap-4">
             <Input label="Styles (séparés par virgule)" name="styles" value={formData.styles} onChange={handleChange} placeholder="Psytrance, Full-On" />

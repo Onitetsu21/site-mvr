@@ -38,16 +38,15 @@ export default function VantaBackground({ className = '' }) {
         p5: window.p5,  // <-- Passer p5 explicitement
         mouseControls: true,
         touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
+        gyroControls: true,
+        minHeight: 300.00,
+        minWidth: 300.00,
+        scale: 1.0,
         scaleMobile: 1.00,
         color: 0x00f0ff,
         backgroundColor: 0x050508,
-        spacing: 11.00,
-        chaos: 6.00,
-        waveSpeed: 0.5  
+        spacing: 12.00,
+        chaos: 3.00,
       })
       setVantaEffect(effect)
     }

@@ -4,21 +4,16 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Calendar, MapPin, ChevronRight } from 'lucide-react'
 import { Container, Section } from '@/components/layout/Section'
 import { Button, Badge, Card } from '@/components/ui'
-import { getLatestReleases, getFeaturedArtists, getUpcomingEvents, supabase } from '@/lib/supabase'
+import { getLatestReleases, getFeaturedArtists, getEvents, supabase } from '@/lib/supabase'
 import { formatDate, isUpcoming } from '@/lib/utils'
 import VantaBackground from '@/components/layout/VantaBackground'
-
+import { NavLink, useLocation } from 'react-router-dom'
 // ===== HERO SECTION =====
 function HeroSection() {
   return (
     <Section padding="lg" className="min-h-[70vh] flex items-center justify-center relative hero">
         <VantaBackground />
-        <div 
-          className="absolute inset-0 pointer-events-none" 
-          style={{ 
-            background: 'radial-gradient(circle at center, transparent 0%, rgba(5,5,8,0.5) 60%, rgba(5,5,8,1) 100%)' 
-          }} 
-/>
+
       {/* Overlay gradient pour lisibilité */}
       <Container className="text-center">
         {/* Logo MVR */}
@@ -67,12 +62,16 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
-          <Button as={Link} to="/releases" variant="primary">
-            Écouter
-          </Button>
-          <Button as={Link} to="/events" variant="secondary">
-            Événements
-          </Button>
+          <NavLink to={"/releases"}>
+            <Button as={Link} to="/releases" variant="primary">
+              Écouter
+            </Button>
+          </NavLink>
+          <NavLink to={"/events"}>
+            <Button as={Link} to="/events" variant="secondary">
+              Événements
+            </Button>
+           </NavLink>
         </motion.div>
 
         {/* Scroll indicator */}
@@ -85,32 +84,127 @@ function HeroSection() {
             y: { delay: 1, duration: 2, repeat: Infinity }
           }}
         >
-          <div className="w-[2px] h-8 bg-gradient-to-b from-neon-cyan/50 to-transparent" />
+          <div className="w-[2px] h-8 bg-gradient-to-b from-transparent to-neon-cyan/50" />
         </motion.div>
+      </Container>
+      <div 
+        className="absolute inset-0 pointer-events-none" 
+        style={{ 
+          background: 'radial-gradient(circle at center, transparent 0%, rgba(5,5,8,0.5) 60%, rgba(5,5,8,1) 100%)' 
+        }} 
+      />
+    </Section>
+  )
+}
+
+// ===== ABOUT SECTION (nouvelle) =====
+function AboutSection() {
+  const stats = [
+    { value: '6+', label: 'Années' },
+    { value: '40+', label: 'Releases' },
+    { value: '15+', label: 'Artistes' },
+    { value: '70+', label: 'Événements' },
+  ]
+
+  return (
+    <Section className="bg-mvr-darker/50">
+      <Container>
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Texte */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-4">
+              Bienvenue dans le <span className="text-neon-cyan">Multiverse</span>
+            </h2>
+            <p className="text-text-secondary mb-4">
+              Multiversal Records est un label indépendant de musique psytrance basé à Lyon, évoluant dans l'univers de la culture psychédélique depuis 2019.
+            </p>
+            <p className="text-text-secondary mb-6">
+              MVR tend à produire des œuvres et des événements axés sur l'être humain, l'éco-responsabilité et la pleine conscience. Notre label réunit un panel d'artistes innovants et talentueux.
+            </p>
+            <NavLink to={"/about"}>
+              <Button as={Link} to="/about" variant="secondary">
+                En savoir plus
+              </Button>
+            </NavLink>
+          
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-2 gap-4"
+          >
+            {stats.map((stat, index) => (
+              <div 
+                key={stat.label}
+                className="text-center p-6 bg-mvr-surface border border-white/5"
+                style={{ clipPath: 'polygon(12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px)' }}
+              >
+                <div className="font-display text-3xl md:text-4xl font-bold text-neon-cyan mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-text-muted text-sm uppercase tracking-wide">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </Container>
     </Section>
   )
 }
 
-// ===== UPCOMING EVENT SECTION =====
-function UpcomingEventSection({ events }) {
+// ===== EVENTS SECTION  =====
+function EventsSection({ events }) {
   if (!events || events.length === 0) return null
 
-  const nextEvent = events[0]
+  // Séparer upcoming et past
+  const now = new Date()
+  const upcomingEvents = events.filter(e => new Date(e.event_date) >= now)
+  const pastEvents = events.filter(e => new Date(e.event_date) < now)
+  
+  // Si pas d'upcoming, utiliser les 3 derniers events passés
+  const displayEvents = upcomingEvents.length > 0 
+    ? upcomingEvents.slice(0, 3) 
+    : pastEvents.slice(0, 3)
+  
+  const isShowingPast = upcomingEvents.length === 0
+
+  const mainEvent = displayEvents[0]
+  if (!mainEvent) return null
 
   return (
     <Section className="relative">
       {/* Ligne décorative */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neon-cyan/90 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neon-cyan/30 to-transparent" />
       
       <Container>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-white">
+            {isShowingPast ? 'Derniers' : 'Prochains'} <span className="text-neon-cyan">événements</span>
+          </h2>
+          <Link 
+            to="/events" 
+            className="text-neon-cyan text-sm font-medium hover:underline hidden sm:flex items-center gap-1"
+          >
+            Voir tout <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Link to={`/events/${nextEvent.slug}`} className="block group">
+          <Link to={`/events/${mainEvent.slug}`} className="block group">
             <Card 
               hover 
               accent 
@@ -118,14 +212,14 @@ function UpcomingEventSection({ events }) {
               className="overflow-hidden relative"
             >
               {/* Image de fond */}
-              {nextEvent.image_url && (
+              {mainEvent.image_url && (
                 <div className="absolute inset-0">
                   <img 
-                    src={nextEvent.image_url} 
-                    alt={nextEvent.name}
+                    src={mainEvent.image_url} 
+                    alt={mainEvent.name}
                     className="w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-mvr-dark via-mvr-dark/90 to-mvr-dark/70" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-mvr-dark/80 via-mvr-dark/30 to-transparent" />
                 </div>
               )}
 
@@ -133,34 +227,34 @@ function UpcomingEventSection({ events }) {
                 {/* Date box */}
                 <div className="flex-shrink-0">
                   <div 
-                    className="w-20 h-22 md:w-[100px] md:h-[110px] bg-neon-cyan/10 border-l-4 border-r-4 border-neon-cyan/30 flex flex-col items-center justify-center"
+                    className={`w-20 h-20 md:w-24 md:h-24 ${isShowingPast ? 'bg-white/10 border-white/30' : 'bg-neon-cyan/10 border-neon-cyan/30'} border flex flex-col items-center justify-center`}
                     style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
                   >
-                    <span className="text-neon-cyan font-display text-2xl md:text-3xl font-bold">
-                      {new Date(nextEvent.event_date).getDate()}
+                    <span className={`${isShowingPast ? 'text-white' : 'text-neon-cyan'} font-display text-2xl md:text-3xl font-bold`}>
+                      {new Date(mainEvent.event_date).getDate()}
                     </span>
-                    <span className="text-neon-cyan/70 text-xs uppercase">
-                      {new Date(nextEvent.event_date).toLocaleDateString('fr-FR', { month: 'short' })}
+                    <span className={`${isShowingPast ? 'text-white/70' : 'text-neon-cyan/70'} text-xs uppercase`}>
+                      {new Date(mainEvent.event_date).toLocaleDateString('fr-FR', { month: 'short' })}
                     </span>
                   </div>
                 </div>
 
                 {/* Infos */}
                 <div className="flex-1">
-                  <Badge variant="cyan" size="sm" className="mb-3">
-                    Prochain événement
+                  <Badge variant={isShowingPast ? 'default' : 'cyan'} size="sm" className="mb-3">
+                    {isShowingPast ? 'Dernier événement' : 'Prochain événement'}
                   </Badge>
                   <h3 className="font-display text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">
-                    {nextEvent.name}
+                    {mainEvent.name}
                   </h3>
                   <div className="flex flex-wrap gap-4 text-text-secondary text-sm">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-4 h-4 text-neon-cyan" />
-                      {formatDate(nextEvent.event_date, { weekday: 'long', day: 'numeric', month: 'long' })}
+                      {formatDate(mainEvent.event_date, { weekday: 'long', day: 'numeric', month: 'long' })}
                     </span>
                     <span className="flex items-center gap-1">
                       <MapPin className="w-4 h-4 text-neon-cyan" />
-                      {nextEvent.venue_name}
+                      {mainEvent.venue_name}
                     </span>
                   </div>
                 </div>
@@ -174,10 +268,10 @@ function UpcomingEventSection({ events }) {
           </Link>
         </motion.div>
 
-        {/* Autres events à venir */}
-        {events.length > 1 && (
+        {/* Autres events */}
+        {displayEvents.length > 1 && (
           <div className="mt-6 grid md:grid-cols-2 gap-4">
-            {events.slice(1, 3).map((event, index) => (
+            {displayEvents.slice(1, 3).map((event, index) => (
               <motion.div
                 key={event.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -188,10 +282,10 @@ function UpcomingEventSection({ events }) {
                 <Link to={`/events/${event.slug}`} className="block group">
                   <Card hover className="flex items-center gap-4">
                     <div 
-                      className="w-12 h-12  flex-shrink-0 bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center"
+                      className={`w-12 h-12 flex-shrink-0 ${isShowingPast ? 'bg-white/10 border-white/30' : 'bg-neon-purple/10 border-neon-purple/30'} border flex items-center justify-center`}
                       style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
                     >
-                      <span className="text-neon-purple font-display font-bold">
+                      <span className={`${isShowingPast ? 'text-white' : 'text-neon-purple'} font-display font-bold`}>
                         {new Date(event.event_date).getDate()}
                       </span>
                     </div>
@@ -210,25 +304,16 @@ function UpcomingEventSection({ events }) {
           </div>
         )}
 
-        {/* Link to all events */}
-        <motion.div 
-          className="text-center mt-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+        <Link 
+          to="/events" 
+          className="text-neon-cyan text-sm font-medium hover:underline flex sm:hidden items-center gap-1 justify-center mt-6"
         >
-          <Link 
-            to="/events" 
-            className="text-neon-cyan text-sm font-medium hover:underline inline-flex items-center gap-1"
-          >
-            Tous les événements <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
+          Tous les événements <ArrowRight className="w-4 h-4" />
+        </Link>
       </Container>
     </Section>
   )
 }
-
 // ===== RELEASES SECTION =====
 function ReleasesSection({ releases }) {
   if (!releases || releases.length === 0) return null
@@ -384,45 +469,6 @@ function ArtistsSection({ artists }) {
   )
 }
 
-// ===== VALUES SECTION =====
-function ValuesSection() {
-  const values = [
-    { icon: '🤝', label: 'Respect' },
-    { icon: '🔄', label: 'Partage' },
-    { icon: '📚', label: 'Transmission' },
-    { icon: '🌱', label: 'Écoresponsabilité' },
-    { icon: '🚀', label: 'Ouverture' },
-  ]
-
-  return (
-    <Section padding="sm">
-      <Container>
-        <motion.div 
-          className="flex flex-wrap justify-center gap-3 md:gap-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          {values.map((value, index) => (
-            <motion.div
-              key={value.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center gap-2 px-4 py-2 bg-mvr-surface/50 border border-white/5"
-              style={{ clipPath: 'polygon(8px 0%, calc(100% - 8px) 0%, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0% 50%)' }}
-            >
-              <span>{value.icon}</span>
-              <span className="text-text-secondary text-sm font-medium">{value.label}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Container>
-    </Section>
-  )
-}
-
 // ===== MAIN HOME PAGE =====
 export default function HomePage() {
   const [releases, setReleases] = useState([])
@@ -431,35 +477,39 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        // Vérifier si Supabase est configuré
-        if (!supabase) {
-          setError('Supabase non configuré')
-          setLoading(false)
-          return
-        }
-
-        const [releasesData, artistsData, eventsData] = await Promise.all([
-          getLatestReleases(4),
-          getFeaturedArtists(4),
-          getUpcomingEvents(3),
-        ])
-
-        setReleases(releasesData || [])
-        setArtists(artistsData || [])
-        setEvents(eventsData || [])
-      } catch (err) {
-        console.error('Error loading home data:', err)
-        setError(err.message)
-      } finally {
+  // Dans le useEffect de HomePage
+useEffect(() => {
+  async function loadData() {
+    try {
+      if (!supabase) {
+        setError('Supabase non configuré')
         setLoading(false)
+        return
       }
-    }
 
-    loadData()
-  }, [])
+      const [releasesData, artistsData, eventsData] = await Promise.all([
+        getLatestReleases(4),
+        getFeaturedArtists(4),
+        getEvents(),
+      ])
+
+      setReleases(releasesData || [])
+      setArtists(artistsData || [])
+      // Trier par date décroissante et prendre les 6 plus récents
+      const sortedEvents = (eventsData || [])
+        .sort((a, b) => new Date(b.event_date) - new Date(a.event_date))
+        .slice(0, 6)
+      setEvents(sortedEvents)
+    } catch (err) {
+      console.error('Error loading home data:', err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  loadData()
+}, [])
 
   // Afficher un message si Supabase n'est pas configuré
   if (error === 'Supabase non configuré') {
@@ -476,7 +526,7 @@ export default function HomePage() {
             </Card>
           </Container>
         </Section>
-        <ValuesSection />
+    
       </>
     )
   }
@@ -484,10 +534,11 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <UpcomingEventSection events={events} />
+      <AboutSection/>
+      <EventsSection events={events} />
       <ReleasesSection releases={releases} />
       <ArtistsSection artists={artists} />
-      <ValuesSection />
+  
     </>
   )
 }

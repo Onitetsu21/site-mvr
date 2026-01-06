@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, NavLink, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Clock, User, Palette } from 'lucide-react'
 import { Container, Section } from '@/components/layout/Section'
 import { Button, Badge, Loader, LinkButton } from '@/components/ui'
-import { getMockReleaseBySlug } from '@/lib/mockData'
 import { formatDate, formatDuration } from '@/lib/utils'
 import { getReleaseBySlug, supabase } from '@/lib/supabase'
 
@@ -40,9 +39,11 @@ export default function ReleasePage() {
     return (
       <Container className="py-20 text-center">
         <h1 className="text-2xl font-bold mb-4">Release non trouvée</h1>
-        <Button as={Link} to="/releases" variant="secondary">
-          Retour aux releases
-        </Button>
+        <Link to="/releases">
+          <Button variant="secondary">
+            Retour aux releases
+          </Button>
+        </Link>
       </Container>
     )
   }
@@ -62,9 +63,11 @@ export default function ReleasePage() {
     <>
       {/* Back button */}
       <div className="pt-4 px-4">
-        <Button as={Link} to="/releases" variant="ghost" size="sm" icon={ArrowLeft}>
-          Releases
-        </Button>
+        <Link to="/releases">
+          <Button variant="ghost">
+            Retour aux releases
+          </Button>
+        </Link>
       </div>
 
       {/* Header avec cover */}
@@ -276,13 +279,18 @@ export default function ReleasePage() {
               <p className="text-text-secondary mb-4">
                 Découvrir plus de releases de
               </p>
-              <Button 
-                as={Link} 
-                to={`/roster/${release.release_artists[0].artist.slug}`}
-                variant="secondary"
-              >
-                {release.release_artists[0].artist.name}
-              </Button>
+              {release.release_artists?.map(({ artist }) => (
+                  <Link
+                    key={artist.id}
+                    to={`/roster/${artist.slug}`}
+                    className="text-neon-cyan hover:text-neon-purple transition-colors font-semibold"
+                  >
+                      <Button variant="secondary">
+                      {release.release_artists[0].artist.name}
+                    </Button>
+                  </Link>
+                ))}
+          
             </motion.div>
           </Container>
         </Section>

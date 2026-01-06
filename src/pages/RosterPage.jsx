@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Container, Section, PageHeader } from '@/components/layout/Section'
 import { Card, Badge, Loader } from '@/components/ui'
-import { getMockArtists } from '@/lib/mockData'
-import { getArtists, supabase } from '@/lib/supabase'
+import { getMVRArtists, supabase } from '@/lib/supabase'
 
 function ArtistCard({ artist, index }) {
   return (
@@ -13,7 +12,7 @@ function ArtistCard({ artist, index }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.4 }}
     >
-      <Link to={`/roster/${artist.slug}`}>
+      <NavLink to={`/roster/${artist.slug}`}>
         <Card hover padding="none" className="overflow-hidden group h-full">
           {/* Photo */}
           <div className="aspect-square relative overflow-hidden">
@@ -45,7 +44,7 @@ function ArtistCard({ artist, index }) {
               </h3>
               {artist.location && (
                 <p className="text-sm text-text-secondary mt-1">
-                  📍 {artist.location}
+                  {artist.location}
                 </p>
               )}
             </div>
@@ -58,7 +57,7 @@ function ArtistCard({ artist, index }) {
             </p>
           </div>
         </Card>
-      </Link>
+      </NavLink>
     </motion.div>
   )
 }
@@ -70,7 +69,7 @@ export default function RosterPage() {
   useEffect(() => {
     async function loadArtists() {
       try {
-        const data = await getArtists()
+        const data = await getMVRArtists()
         setArtists(data)
       } catch (error) {
         console.error('Error loading artists:', error)
