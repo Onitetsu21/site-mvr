@@ -111,7 +111,7 @@ function ReleaseForm({ release, artists, onSave, onCancel, saving }) {
             <Input label="N° Catalogue" name="catalog_number" value={formData.catalog_number} onChange={handleChange} placeholder="MVR047" />
           </div>
 
-          <Input label="Cover URL" name="cover_url" type="url" value={formData.cover_url} onChange={handleChange} />
+          <Input label="Cover URL" name="cover_url" type="text" value={formData.cover_url} onChange={handleChange} />
 
           <div>
             <label className="block text-sm font-medium text-text-secondary mb-2">Artiste(s)</label>
