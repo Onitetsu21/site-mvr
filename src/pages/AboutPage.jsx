@@ -139,7 +139,6 @@ function ValueCard({ value, index }) {
       transition={{ delay: index * 0.1 }}
     >
       <Card hover className="h-full">
-        <div className="text-4xl mb-4">{value.icon}</div>
         <h3 className={`font-display text-xl font-bold mb-2 ${
           value.color === 'cyan' ? 'text-neon-cyan' : 
           value.color === 'purple' ? 'text-neon-purple' : 
