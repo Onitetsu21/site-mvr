@@ -96,22 +96,22 @@ function ArtistForm({ artist, onSave, onCancel, saving }) {
           <div>
             <h3 className="font-medium text-white mb-3">Liens d'écoute</h3>
             <div className="grid md:grid-cols-2 gap-4">
-              <Input label="Spotify" name="link_spotify" type="url" value={formData.link_spotify} onChange={handleChange} />
-              <Input label="SoundCloud" name="link_soundcloud" type="url" value={formData.link_soundcloud} onChange={handleChange} />
-              <Input label="Bandcamp" name="link_bandcamp" type="url" value={formData.link_bandcamp} onChange={handleChange} />
-              <Input label="Beatport" name="link_beatport" type="url" value={formData.link_beatport} onChange={handleChange} />
+              <Input label="Spotify" name="link_spotify" type="text" value={formData.link_spotify} onChange={handleChange} />
+              <Input label="SoundCloud" name="link_soundcloud" type="text" value={formData.link_soundcloud} onChange={handleChange} />
+              <Input label="Bandcamp" name="link_bandcamp" type="text" value={formData.link_bandcamp} onChange={handleChange} />
+              <Input label="Beatport" name="link_beatport" type="text" value={formData.link_beatport} onChange={handleChange} />
             </div>
           </div>
 
           <div>
             <h3 className="font-medium text-white mb-3">Réseaux sociaux</h3>
             <div className="grid md:grid-cols-2 gap-4">
-              <Input label="Instagram" name="link_instagram" type="url" value={formData.link_instagram} onChange={handleChange} />
-              <Input label="Facebook" name="link_facebook" type="url" value={formData.link_facebook} onChange={handleChange} />
+              <Input label="Instagram" name="link_instagram" type="text" value={formData.link_instagram} onChange={handleChange} />
+              <Input label="Facebook" name="link_facebook" type="text" value={formData.link_facebook} onChange={handleChange} />
             </div>
           </div>
 
-          <Input label="Lien Presskit" name="link_presskit" type="url" value={formData.link_presskit} onChange={handleChange} />
+          <Input label="Lien Presskit" name="link_presskit" type="text" value={formData.link_presskit} onChange={handleChange} />
 
           <div className="flex flex-wrap gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
