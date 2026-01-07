@@ -445,7 +445,12 @@ function ArtistsSection({ artists }) {
             </motion.div>
           ))}
         </div>
-
+  
+            <img
+              src="/logomvrcyan.png"
+              alt=""
+              className="absolute bottom-[-10vh] left-[-10vw] md:bottom-[-50vh] md:left-[-30vw] sm:bottom-[-20vh] sm:left-[-20vw] lg:bottom-[-95vh] lg:left-[-50vw] transform pointer-events-none opacity-10 z-[-10] scale-50 sm:scale-75 md:scale-90 lg:scale-100"
+            />
         <Link 
           to="/roster" 
           className="text-neon-purple text-sm font-medium hover:underline flex sm:hidden items-center gap-1 justify-center mt-6"
