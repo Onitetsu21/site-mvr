@@ -107,7 +107,7 @@ export async function getMVRArtists() {
   const mvrSlugs = [
     'the-trancemancer', 'psy-fact', 'gohu', 'i-on', 'ulmo', 'anija', 
     'tripshift', 'nidra', 'unlucide', 'solar-drift', 'adramelech',
-    'monsieur-le-maire', 'excaetera', 'krauzer', 'hokoda'
+    'monsieur-le-maire', 'excaetera', 'krauzer', 'hokoda', 'spacey-guana-2'
   ]
   
   const { data, error } = await supabase
