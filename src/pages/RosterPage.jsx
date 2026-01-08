@@ -98,28 +98,7 @@ export default function RosterPage() {
 
       <Section padding="sm">
         <Container>
-          {/* Stats */}
-          <motion.div
-            className="flex justify-center gap-8 mb-12 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div>
-              <p className="font-display text-3xl font-bold text-neon-cyan">{artists.length}</p>
-              <p className="text-text-secondary text-sm">Artistes</p>
-            </div>
-            <div className="w-px bg-white/10" />
-            <div>
-              <p className="font-display text-3xl font-bold text-neon-purple">30+</p>
-              <p className="text-text-secondary text-sm">Releases</p>
-            </div>
-            <div className="w-px bg-white/10" />
-            <div>
-              <p className="font-display text-3xl font-bold text-neon-pink">5+</p>
-              <p className="text-text-secondary text-sm">Années</p>
-            </div>
-          </motion.div>
+    
 
           {/* Grid d'artistes */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

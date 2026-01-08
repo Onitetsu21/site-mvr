@@ -6,35 +6,25 @@ import { Container, Section } from '@/components/layout/Section'
 import { Button, Badge, Card } from '@/components/ui'
 import { getLatestReleases, getFeaturedArtists, getEvents, supabase } from '@/lib/supabase'
 import { formatDate, isUpcoming } from '@/lib/utils'
-import VantaBackground from '@/components/layout/VantaBackground'
 import { NavLink, useLocation } from 'react-router-dom'
+
 // ===== HERO SECTION =====
+// NOTE: VantaBackground est maintenant géré au niveau global dans EntranceGate
 function HeroSection() {
   return (
-    <Section padding="lg" className="min-h-[92vh] flex items-center justify-center relative hero">
-        <VantaBackground />
+    <Section padding="lg" className="min-h-screen flex items-center justify-center relative hero">
+      {/* VantaBackground RETIRÉ - il est maintenant dans EntranceGate */}
 
       {/* Overlay gradient pour lisibilité */}
       <Container className="text-center">
         {/* Logo MVR */}
        
-      <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="mb-8"
-        >
-          <img 
-            src="/mvr_logo_blanc.png" 
-            alt="Multiversal Records" 
-            className="w-32 h-32 md:w-90 md:h-90 mx-auto"
-          />
-        </motion.div>
+      
         {/* Titre */}
         <motion.h1
           className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4 "
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, z: -20 }}
+          animate={{ opacity: 1, z: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           <span className="text-white bold">MULTIVERSAL</span>
@@ -42,7 +32,18 @@ function HeroSection() {
           <span className="text-neon-cyan">RECORDS</span>
         </motion.h1>
    
-
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="mb-8"
+        >
+          <img 
+            src="/logomvrcyan.png" 
+            alt="Multiversal Records" 
+            className="w-32 h-34 md:w-90 md:h-90 mx-auto"
+          />
+        </motion.div>
         {/* Tagline */}
         <motion.p
           className="text-white text-lg md:text-xl max-w-xl mx-auto mb-8"
@@ -446,11 +447,7 @@ function ArtistsSection({ artists }) {
           ))}
         </div>
   
-            <img
-              src="/logomvrcyan.png"
-              alt=""
-              className="absolute bottom-[-10vh] left-[-10vw] md:bottom-[-50vh] md:left-[-30vw] sm:bottom-[-20vh] sm:left-[-20vw] lg:bottom-[-95vh] lg:left-[-50vw] transform pointer-events-none opacity-10 z-[-10] scale-50 sm:scale-75 md:scale-90 lg:scale-100"
-            />
+       
         <Link 
           to="/roster" 
           className="text-neon-purple text-sm font-medium hover:underline flex sm:hidden items-center gap-1 justify-center mt-6"
@@ -525,13 +522,14 @@ useEffect(() => {
   }
 
   return (
-    <>
+    <div className='relative'>
       <HeroSection />
       <AboutSection/>
       <EventsSection events={events} />
+
       <ReleasesSection releases={releases} />
       <ArtistsSection artists={artists} />
-  
-    </>
+    
+    </div>
   )
 }

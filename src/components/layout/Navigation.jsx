@@ -1,14 +1,14 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Home, Users, Disc3, Calendar, Info, Mail } from 'lucide-react'
+import { Hexagon, Users, Disc3, Calendar, Info, Mail } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { path: '/', label: 'Home', icon: Home },
-  { path: '/roster', label: 'Roster', icon: Users },
-  { path: '/releases', label: 'Releases', icon: Disc3 },
-  { path: '/events', label: 'Events', icon: Calendar },
-  { path: '/about', label: 'About', icon: Info },
+  { path: '/', label: 'Accueil', icon: Hexagon },
+  { path: '/roster', label: 'Artistes', icon: Users },
+  { path: '/releases', label: 'Label', icon: Disc3 },
+  { path: '/events', label: 'Evénements', icon: Calendar },
+  { path: '/about', label: 'L\'asso', icon: Info },
   { path: '/contact', label: 'Contact', icon: Mail },
 ]
 
@@ -41,7 +41,7 @@ export default function Navigation() {
             >
               {/* Indicateur actif */}
               {isActive && (
-                <motion.div
+                <motion.img
                   layoutId="nav-indicator"
                   className="absolute -top-3 w-1 h-1 bg-neon-cyan"
                   style={{ 

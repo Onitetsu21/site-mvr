@@ -1,6 +1,11 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import ScrollToTop from './components/ui/ScrollToTop' 
+import ScrollToTop from './components/ui/ScrollToTop'
+
+// Audio System
+import { AudioProvider } from './contexts/AudioContext'
+import EntranceGate from './components/audio/EntranceGate'
+
 // Layout
 import Layout from './components/layout/Layout'
 
@@ -22,13 +27,12 @@ import AdminArtists from './pages/admin/AdminArtists'
 import AdminReleases from './pages/admin/AdminReleases'
 import AdminEvents from './pages/admin/AdminEvents'
 
-function App() {
+function AppRoutes() {
   const location = useLocation()
 
   return (
     <AnimatePresence mode="wait">
-        <ScrollToTop />
-
+      <ScrollToTop />
       <Routes location={location} key={location.pathname}>
         {/* Public Routes */}
         <Route path="/" element={<Layout />}>
@@ -43,7 +47,7 @@ function App() {
           <Route path="contact" element={<ContactPage />} />
         </Route>
 
-        {/* Admin Routes */}
+        {/* Admin Routes - pas d'EntranceGate */}
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/artists" element={<AdminArtists />} />
@@ -51,6 +55,25 @@ function App() {
         <Route path="/admin/events" element={<AdminEvents />} />
       </Routes>
     </AnimatePresence>
+  )
+}
+
+function App() {
+  const location = useLocation()
+  
+  // Ne pas afficher l'EntranceGate sur les pages admin
+  const isAdminRoute = location.pathname.startsWith('/admin')
+
+  if (isAdminRoute) {
+    return <AppRoutes />
+  }
+
+  return (
+    <AudioProvider>
+      <EntranceGate>
+        <AppRoutes />
+      </EntranceGate>
+    </AudioProvider>
   )
 }
 
