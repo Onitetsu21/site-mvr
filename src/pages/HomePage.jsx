@@ -6,82 +6,185 @@ import { Container, Section } from '@/components/layout/Section'
 import { Button, Badge, Card } from '@/components/ui'
 import { getLatestReleases, getFeaturedArtists, getEvents, supabase } from '@/lib/supabase'
 import { formatDate, isUpcoming } from '@/lib/utils'
+import VantaBackground from '@/components/layout/VantaBackground'
+import { useAudio } from '@/contexts/AudioContext'
 import { NavLink, useLocation } from 'react-router-dom'
 
-// ===== HERO SECTION =====
-// NOTE: VantaBackground est maintenant géré au niveau global dans EntranceGate
-function HeroSection() {
+function ScrollIndicator() {
+  const [isVisible, setIsVisible] = useState(true)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Disparaît après 50px de scroll
+      setIsVisible(window.scrollY < 50)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  if (!isVisible) return null
+
   return (
-    <Section padding="lg" className="min-h-screen flex items-center justify-center relative hero">
-      {/* VantaBackground RETIRÉ - il est maintenant dans EntranceGate */}
+    <motion.div
+      className="absolute bottom-8 right-8 flex flex-col items-center gap-2 cursor-pointer"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ delay: 0.8, duration: 0.6 }}
+      onClick={() => {
+        window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+      }}
+    >
+      {/* Hexagone avec flèche */}
+      <motion.div
+        className="relative w-12 h-14 flex items-center justify-center"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        {/* Hexagone border */}
+        <div 
+          className="absolute inset-0 border-r-2 border-l-2 border-neon-cyan/50"
+          style={{ 
+            clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' 
+          }}
+        />
+        
+        {/* Hexagone glow effect */}
+        <motion.div 
+          className="absolute inset-0"
+          style={{ 
+            clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' 
+          }}
+          animate={{
+            boxShadow: [
+              'inset 0 0 10px rgba(0, 240, 255, 0.1)',
+              'inset 0 0 20px rgba(0, 240, 255, 0.2)',
+              'inset 0 0 10px rgba(0, 240, 255, 0.1)',
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        />
 
-      {/* Overlay gradient pour lisibilité */}
-      <Container className="text-center">
-        {/* Logo MVR */}
-       
+        {/* Chevrons animés à l'intérieur */}
+        <div className="flex flex-col items-center gap-0.5">
+          <motion.svg
+            width="16"
+            height="10"
+            viewBox="0 0 16 10"
+            className="text-neon-cyan"
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <path
+              d="M1 1L8 8L15 1"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.svg>
+          <motion.svg
+            width="16"
+            height="10"
+            viewBox="0 0 16 10"
+            className="text-neon-cyan"
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+          >
+            <path
+              d="M1 1L8 8L15 1"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.svg>
+        </div>
+      </motion.div>
+
       
-        {/* Titre */}
-        <motion.h1
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4 "
-          initial={{ opacity: 0, z: -20 }}
-          animate={{ opacity: 1, z: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <span className="text-white bold">MULTIVERSAL</span>
-          <br />
-          <span className="text-neon-cyan">RECORDS</span>
-        </motion.h1>
-   
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="mb-8"
-        >
-          <img 
-            src="/logomvrcyan.png" 
-            alt="Multiversal Records" 
-            className="w-32 h-34 md:w-90 md:h-90 mx-auto"
-          />
-        </motion.div>
-        {/* Tagline */}
-        <motion.p
-          className="text-white text-lg md:text-xl max-w-xl mx-auto mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          Label indépendant de musique psytrance
-          <br />
-          <span className="text-white">Lyon, France • Depuis 2019</span>
-        </motion.p>
+ 
+    </motion.div>
+  )
+}
+// ===== HERO SECTION =====
+function HeroSection() {
+  const { siteUnlocked } = useAudio()
 
-        {/* CTAs */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-        >
-          <NavLink to={"/releases"}>
-            <Button as={Link} to="/releases" variant="primary">
-              Écouter
-            </Button>
-          </NavLink>
-          <NavLink to={"/events"}>
-            <Button as={Link} to="/events" variant="secondary">
-              Événements
-            </Button>
-           </NavLink>
-        </motion.div>
-       
-      </Container>
+  return (
+    <Section padding="lg" className="min-h-[100vh] flex items-center justify-center relative hero">
+      {/* Vanta Background - visible dès le départ */}
+      <VantaBackground />
 
+      {/* Contenu du Hero - caché puis apparaît après unlock */}
+      {siteUnlocked && (
+        <Container className="text-center relative z-10">
+          {/* Logo MVR */}
+    
+
+          {/* Titre */}
+          <motion.h1
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4"
+            initial={{ opacity: 0, z: 20 }}
+            animate={{ opacity: 1, z: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            <span className="text-white bold">MULTIVERSAL</span>
+            <br />
+            <span className="text-neon-cyan">RECORDS</span>
+          </motion.h1>
+      <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="mb-8"
+          >
+            <img 
+              src="/logomvrcyan.png" 
+              alt="Multiversal Records" 
+              className="w-32 h-34 md:w-90 md:h-90 mx-auto"
+            />
+          </motion.div>
+          {/* Tagline */}
+          <motion.p
+            className="text-white text-lg md:text-xl max-w-xl mx-auto mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
+            Label indépendant de musique psytrance
+            <br />
+            <span className="text-white">Lyon, France • Depuis 2019</span>
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
+            <NavLink to={"/releases"}>
+              <Button as={Link} to="/releases" variant="primary">
+                Écouter
+              </Button>
+            </NavLink>
+            <NavLink to={"/events"}>
+              <Button as={Link} to="/events" variant="secondary">
+                Événements
+              </Button>
+            </NavLink>
+          </motion.div>
+        </Container>
+      )}
+
+      {/* Scroll Indicator - visible après unlock */}
+      {siteUnlocked && <ScrollIndicator />}
     </Section>
   )
 }
 
-// ===== ABOUT SECTION (nouvelle) =====
 function AboutSection() {
   const stats = [
     { value: '6+', label: 'Années' },
@@ -446,8 +549,7 @@ function ArtistsSection({ artists }) {
             </motion.div>
           ))}
         </div>
-  
-       
+
         <Link 
           to="/roster" 
           className="text-neon-purple text-sm font-medium hover:underline flex sm:hidden items-center gap-1 justify-center mt-6"
@@ -458,7 +560,6 @@ function ArtistsSection({ artists }) {
     </Section>
   )
 }
-
 // ===== MAIN HOME PAGE =====
 export default function HomePage() {
   const [releases, setReleases] = useState([])
@@ -466,6 +567,7 @@ export default function HomePage() {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { siteUnlocked } = useAudio()
 
   // Dans le useEffect de HomePage
 useEffect(() => {
@@ -506,30 +608,38 @@ useEffect(() => {
     return (
       <>
         <HeroSection />
-        <Section>
-          <Container>
-            <Card accent className="text-center py-12">
-              <p className="text-neon-cyan mb-2">⚠️ Base de données non connectée</p>
-              <p className="text-text-secondary text-sm">
-                Configurez vos variables d'environnement Supabase dans le fichier .env
-              </p>
-            </Card>
-          </Container>
-        </Section>
-    
+        {siteUnlocked && (
+          <Section>
+            <Container>
+              <Card accent className="text-center py-12">
+                <p className="text-neon-cyan mb-2">⚠️ Base de données non connectée</p>
+                <p className="text-text-secondary text-sm">
+                  Configurez vos variables d'environnement Supabase dans le fichier .env
+                </p>
+              </Card>
+            </Container>
+          </Section>
+        )}
       </>
     )
   }
 
   return (
-    <div className='relative'>
+    <>
       <HeroSection />
-      <AboutSection/>
-      <EventsSection events={events} />
-
-      <ReleasesSection releases={releases} />
-      <ArtistsSection artists={artists} />
-    
-    </div>
+      {/* Sections cachées tant que le site n'est pas déverrouillé */}
+      {siteUnlocked && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+        >
+          <AboutSection />
+          <EventsSection events={events} />
+          <ReleasesSection releases={releases} />
+          <ArtistsSection artists={artists} />
+        </motion.div>
+      )}
+    </>
   )
 }

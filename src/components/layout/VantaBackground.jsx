@@ -36,6 +36,7 @@ export default function VantaBackground({ className = '' }) {
         // Initialiser l'effet avec chaos = 0 si pas encore déverrouillé, 2 sinon
         if (vantaRef.current && window.VANTA) {
           const initialChaos = siteUnlocked ? 2 : 0
+   
           
           const effect = window.VANTA.TRUNK({
             el: vantaRef.current,
@@ -46,10 +47,10 @@ export default function VantaBackground({ className = '' }) {
             minHeight: 300.00,
             minWidth: 300.00,
             scale: 1.0,
-            scaleMobile: 1.00,
+            scaleMobile: 0.9,
             color: 0x00f0ff,
             backgroundColor: 0x030306,
-            spacing: 2.50,
+            spacing: 2.5,
             chaos: initialChaos,
           })
           

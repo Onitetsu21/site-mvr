@@ -149,7 +149,11 @@ export default function AudioPlayer() {
   if (!siteUnlocked) return null
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.4, duration: 0.5, ease: 'easeOut' }}
+    >
       {/* Version rétractée (indicateur) */}
       <AnimatePresence>
         {!isExpanded && (
@@ -159,7 +163,7 @@ export default function AudioPlayer() {
             exit={{ x: -100, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             onClick={() => setIsExpanded(true)}
-            className="fixed left-0 top-3 -translate-y-1/2 z-[150] flex items-center gap-2 pl-3 pr-2 py-3 bg-mvr-surface/90 backdrop-blur-md border border-white/10 border-l-0 rounded-r-lg cursor-pointer group hover:border-neon-cyan/30 transition-colors"
+            className="fixed left-0 top-2 -translate-y-1/2 z-[150] flex items-center gap-2 pl-3 pr-2 py-3 bg-mvr-surface/90 backdrop-blur-md border border-white/10 border-l-0 rounded-r-lg cursor-pointer group hover:border-neon-cyan/30 transition-colors"
             style={{
               boxShadow: '4px 0 20px rgba(0, 0, 0, 0.5)',
             }}
@@ -313,6 +317,6 @@ export default function AudioPlayer() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </motion.div>
   )
 }
