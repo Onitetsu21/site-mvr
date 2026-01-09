@@ -5,6 +5,9 @@ import { Send, Mail, MapPin, CheckCircle, AlertCircle } from 'lucide-react'
 import { Container, Section, PageHeader } from '@/components/layout/Section'
 import { Button, Card, Input, Textarea, Select } from '@/components/ui'
 
+
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_KEY
+
 // Options du select sujet
 const subjectOptions = [
   { value: '', label: 'Choisir un sujet...' },
@@ -15,6 +18,16 @@ const subjectOptions = [
   { value: 'presse', label: '📰 Demande presse / média' },
   { value: 'autre', label: '💬 Autre demande' },
 ]
+
+// Labels pour l'email
+const subjectLabels = {
+  demo: '🎵 Envoi de demo',
+  booking: '🎧 Booking artiste',
+  partenariat: '🤝 Proposition de partenariat',
+  benevole: '💪 Candidature bénévole',
+  presse: '📰 Demande presse / média',
+  autre: '💬 Autre demande',
+}
 
 // Liens sociaux
 const socialLinks = [
@@ -94,14 +107,32 @@ export default function ContactPage() {
     setStatus('loading')
 
     try {
-      // Simuler l'envoi (à remplacer par l'appel Supabase/API)
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // En production, utiliser Supabase ou un service d'email
-      // await sendContactMessage(formData)
-      
-      setStatus('success')
-      setFormData({ subject: '', name: '', email: '', message: '' })
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `[MVR Contact] ${subjectLabels[formData.subject] || formData.subject}`,
+          from_name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          // Champs additionnels pour le formatage
+          sujet_type: subjectLabels[formData.subject] || formData.subject,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        setStatus('success')
+        setFormData({ subject: '', name: '', email: '', message: '' })
+      } else {
+        console.error('Web3Forms error:', result)
+        setStatus('error')
+      }
     } catch (error) {
       console.error('Error sending message:', error)
       setStatus('error')

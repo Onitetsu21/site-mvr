@@ -21,6 +21,13 @@
 
 export const PLAYLIST = [
   // Track d'exemple (remplace par tes vraies tracks)
+    {
+    id: 1,
+    title: 'The sounds',
+    artist: 'The Trancemancer',
+    src: '/audio/the-sounds.mp3',
+    cover: '/releases/beyond.jpg',
+  },
   {
     id: 3,
     title: 'Split Theory',
