@@ -25,6 +25,22 @@
   --hex-clip-corners: polygon(20px 0%, calc(100% - 20px) 0%, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0% calc(100% - 20px), 0% 20px);
 }
 
+@font-face {
+  font-family: 'Imposible';
+  src: url('/fonts/imposible_fill.woff2') format('woff2'),
+       url('/fonts/imposible_fill.woff') format('woff'),
+       url('/fonts/imposible_fill.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Dirga';
+  src: url('/fonts/Dirga.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 /* ===== BASE STYLES ===== */
 * {
   margin: 0;

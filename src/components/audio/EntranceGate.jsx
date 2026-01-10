@@ -93,7 +93,7 @@ export default function EntranceGate({ children }) {
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 {/* Cercle externe pulsant */}
                 <motion.div
-                  className="absolute w-48 h-48 md:w-64 md:h-64 rounded-full border border-neon-cyan/20"
+                  className="absolute w-48 h-48 md:w-64 md:h-64 rounded-full border border-neon-cyan/20 z-20"
                   animate={{
                     scale: [1, 1.1, 1],
                     opacity: [0.3, 0.1, 0.3],
@@ -124,7 +124,7 @@ export default function EntranceGate({ children }) {
               <motion.button
                 onClick={handleEnter}
                 disabled={isAnimating}
-                className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-mvr-surface/50 backdrop-blur-sm border-2 border-neon-cyan/50 flex items-center justify-center group cursor-pointer overflow-hidden"
+                className="relative w-32 h-32 md:w-32 md:h-32 rounded-full  bg-mvr-darker border-2 border-neon-cyan/50 flex items-center justify-center group cursor-pointer overflow-hidden"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 1.5, opacity: 0 }}
@@ -193,7 +193,7 @@ export default function EntranceGate({ children }) {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ delay: 0.3 }}
               >
-                <p className="font-display text-sm md:text-base text-neon-cyan tracking-[0.3em] uppercase">
+                <p className="font-display text-sm md:text-base text-neon-cyan tracking-[0.3em] uppercase text-shadow-lg  bg-mvr-darker/80 py-2 px-4 rounded">
                   Enter the Multiverse
                 </p>
              

@@ -37,6 +37,7 @@ export default {
         display: ['Orbitron', 'sans-serif'],      // Titres futuristes
         body: ['Exo 2', 'sans-serif'],            // Corps de texte
         mono: ['JetBrains Mono', 'monospace'],    // Code/données
+        impossible: ['Imposible', 'sans-serif'], // ← Ajoute ça
       },
       
       // ===== ANIMATIONS =====
