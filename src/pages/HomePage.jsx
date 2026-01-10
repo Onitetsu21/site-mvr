@@ -515,7 +515,7 @@ function ArtistsSection({ artists }) {
             >
               <Link to={`/roster/${artist.slug}`} className="block group text-center">
                 {/* Photo hexagonale */}
-                <div className="relative w-[100px] h-[110px] md:w-[250px] md:h-[280px] mx-auto mb-4">
+                <div className="relative w-[160px] h-[180px] md:w-[250px] md:h-[280px] mx-auto mb-4">
                   <div 
                     className="absolute inset-0  border-8  border-double border-white/10 group-hover:border-neon-purple/50 transition-colors duration-300"
                     style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
