@@ -362,7 +362,7 @@ function EventsSection({ events }) {
 
         {/* Autres events */}
         {displayEvents.length > 1 && (
-          <div className="mt-6 grid md:grid-cols-2 gap-4">
+          <div className="mt-6 grid md:grid-cols-2 gap-4 max-w-[90vw] overflow-x-auto md:max-w-full">
             {displayEvents.slice(1, 3).map((event, index) => (
               <motion.div
                 key={event.id}
@@ -371,7 +371,7 @@ function EventsSection({ events }) {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Link to={`/events/${event.slug}`} className="block group">
+                <Link to={`/events/${event.slug}`} className="block group max-w-[90vw] md:max-w-full">
                   <Card hover className="flex items-center gap-4">
                     <div 
                       className={`w-12 h-12 flex-shrink-0 ${isShowingPast ? 'bg-white/10 border-white/30' : 'bg-neon-purple/10 border-neon-purple/30'} border flex items-center justify-center`}
