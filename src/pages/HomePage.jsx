@@ -113,7 +113,7 @@ function HeroSection() {
   const { siteUnlocked } = useAudio()
 
   return (
-    <Section padding="lg" className="min-h-[100vh] flex items-center justify-center relative hero">
+    <Section padding="lg" className=" min-h-screen-safe sm:h-screen-safe flex items-center justify-center relative hero">
       {/* Vanta Background - visible dès le départ */}
       <VantaBackground />
 

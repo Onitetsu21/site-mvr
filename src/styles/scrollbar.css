@@ -7,6 +7,48 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* =====================================================
+   MOBILE VIEWPORT FIX (100vh bug)
+   ===================================================== */
+
+/* Support pour dvh (dynamic viewport height) sur mobile */
+.h-screen-safe {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.min-h-screen-safe {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Pour les navigateurs qui ne supportent pas dvh */
+@supports not (height: 100dvh) {
+  .h-screen-safe {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+  .min-h-screen-safe {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Fix pour iOS Safari */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
+}
+
+/* =====================================================
+   SCROLLBAR STYLING
+   ===================================================== */
+
 /* Scrollbar pour Webkit (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
   width: 8px;

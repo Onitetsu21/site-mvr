@@ -85,7 +85,7 @@ export default function EntranceGate({ children }) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
-            className="fixed inset-0 z-[100] flex h-100dvh items-center justify-center pointer-events-auto"
+            className="fixed inset-0 z-[100] flex min-h-screen-safe items-center justify-center pointer-events-auto"
           >
             {/* Bouton Play central */}
             <div className="relative flex flex-col items-center">
