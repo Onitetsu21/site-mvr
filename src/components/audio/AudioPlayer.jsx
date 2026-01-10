@@ -154,56 +154,56 @@ export default function AudioPlayer() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.4, duration: 0.5, ease: 'easeOut' }}
     >
-      {/* Version rétractée (indicateur) */}
+      {/* Version rétractée (indicateur) - À DROITE */}
       <AnimatePresence>
         {!isExpanded && (
           <motion.button
-            initial={{ x: -100, opacity: 0 }}
+            initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -100, opacity: 0 }}
+            exit={{ x: 100, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             onClick={() => setIsExpanded(true)}
-            className="fixed left-0 top-2 -translate-y-1/2 z-[150] flex items-center gap-2 pl-3 pr-2 py-3 bg-mvr-surface/90 backdrop-blur-md border border-white/10 border-l-0 rounded-r-lg cursor-pointer group hover:border-neon-cyan/30 transition-colors"
+            className="fixed right-0 top-2 -translate-y-1/2 z-[150] flex items-center gap-2 pr-3 pl-2 py-3 bg-mvr-surface/90 backdrop-blur-md border border-white/10 border-r-0 rounded-l-lg cursor-pointer group hover:border-neon-cyan/30 transition-colors"
             style={{
-              boxShadow: '4px 0 20px rgba(0, 0, 0, 0.5)',
+              boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
             }}
           >
             {/* Equalizer ou icône */}
             <div className="flex flex-col items-center gap-2">
+              <ChevronLeft className="w-4 h-4 text-text-muted group-hover:text-neon-cyan transition-colors" />
               <Equalizer isPlaying={isPlaying} />
-              <ChevronRight className="w-4 h-4 text-text-muted group-hover:text-neon-cyan transition-colors" />
             </div>
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Version étendue (player complet) */}
+      {/* Version étendue (player complet) - À DROITE */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            initial={{ x: -320 }}
+            initial={{ x: 320 }}
             animate={{ x: 0 }}
-            exit={{ x: -320 }}
+            exit={{ x: 320 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed left-0 top-2 -translate-y-1/2 z-[150] w-72 bg-mvr-surface/95 backdrop-blur-md border border-white/10 border-l-0 rounded-r-2xl overflow-hidden"
+            className="fixed right-0 top-2 -translate-y-1/2 z-[150] w-72 bg-mvr-surface/95 backdrop-blur-md border border-white/10 border-r-0 rounded-l-2xl overflow-hidden"
             style={{
-              boxShadow: '8px 0 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.05)',
+              boxShadow: '-8px 0 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.05)',
             }}
           >
             {/* Header avec bouton fermer */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
-              <div className="flex items-center gap-2">
-                <Music2 className="w-4 h-4 text-neon-cyan" />
-                <span className="text-xs font-display text-text-secondary uppercase tracking-wider">
-                  Now Playing
-                </span>
-              </div>
               <button
                 onClick={() => setIsExpanded(false)}
                 className="p-1 hover:bg-white/5 rounded transition-colors"
               >
-                <ChevronLeft className="w-4 h-4 text-text-muted" />
+                <ChevronRight className="w-4 h-4 text-text-muted" />
               </button>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-display text-text-secondary uppercase tracking-wider">
+                  Now Playing
+                </span>
+                <Music2 className="w-4 h-4 text-neon-cyan" />
+              </div>
             </div>
 
             {/* Contenu du player */}

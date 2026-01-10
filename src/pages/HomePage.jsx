@@ -125,7 +125,7 @@ function HeroSection() {
 
           {/* Titre */}
           <motion.h1
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mb-4"
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-wider mt-8 sm:mt-0 mb-10 sm:mb-4"
             initial={{ opacity: 0, z: 20 }}
             animate={{ opacity: 1, z: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
